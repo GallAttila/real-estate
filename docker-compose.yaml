@@ -1,15 +1,5 @@
 version: '3.9'
 services:
-  keycloak:
-    image: 'quay.io/keycloak/keycloak:20.0.3'
-    command:
-      - start-dev
-      - --hostname-port=8081
-    environment:
-      KEYCLOAK_ADMIN: 'admin'
-      KEYCLOAK_ADMIN_PASSWORD: 'admin'
-    ports:
-      - '8081:8080'
   nestjs:
     build: .
     image: attogall/real-estate

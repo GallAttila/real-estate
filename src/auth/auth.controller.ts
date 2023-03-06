@@ -35,8 +35,7 @@ export class AuthController {
     },
   })
   @ApiKeyAuth()
-  @UseGuards(LocalAuthGuard)
-  @UseGuards(ApiAuthGuard)
+  @UseGuards(LocalAuthGuard, ApiAuthGuard)
   @Post('/log-in')
   async logIn(@CurrentUser() user: User) {
     console.log('log-in');

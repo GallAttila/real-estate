@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 3001
 
-CMD [ "npm", "run", "start:dev",  "chsh -s /bin/bash" ]
+CMD [ "npm", "run", "start:dev" ]
