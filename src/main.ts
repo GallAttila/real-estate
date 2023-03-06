@@ -10,7 +10,6 @@ async function bootstrap() {
     cors: true,
   });
   app.useGlobalPipes(new ValidationPipe());
-  app.useStaticAssets('served');
   const config = new DocumentBuilder()
     .addApiKey(
       {

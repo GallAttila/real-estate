@@ -2,14 +2,13 @@ import { Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ApiKeyAuth } from 'src/decorators/apiKey.decorator';
 import { CurrentUser } from 'src/decorators/user.decorator';
-import { UserDocument } from 'src/users/schemas/user.schema';
 import { User } from 'src/users/types/user';
 import { AuthService } from './auth.service';
 import { LogInDto } from './dto/logIn.dto';
 import { ApiAuthGuard } from './guard/api-auth.guard';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 
-@ApiTags('auth')
+@ApiTags('auth (apiKey*)')
 @Controller('')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -40,6 +39,7 @@ export class AuthController {
   @UseGuards(ApiAuthGuard)
   @Post('/log-in')
   async logIn(@CurrentUser() user: User) {
+    console.log('log-in');
     return await this.authService.logIn(user);
   }
 }

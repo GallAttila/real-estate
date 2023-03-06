@@ -14,6 +14,7 @@ export class AuthService {
   async validateUser(
     credentials: UserCredentials,
   ): Promise<Omit<User, 'password'> | null> {
+    console.log('username', credentials.username);
     const user = await this.usersService.findOne(credentials.username);
     if (user && user.password === credentials.password) {
       user.password = undefined;

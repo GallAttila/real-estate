@@ -9,11 +9,11 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
     super();
   }
 
-  authenticate(request: Request): void {
-    const apiKey = request[process.env.API_KEY_IN][process.env.API_KEY_NAME];
+  authenticate(req: Request): void {
+    const apiKey = req[process.env.API_KEY_IN][process.env.API_KEY_NAME];
     if (apiKey !== process.env.API_KEY) {
       throw new UnauthorizedException();
     }
-    return this.pass();
+    return this.success(req.user);
   }
 }

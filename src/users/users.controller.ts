@@ -1,50 +1,37 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { ApiAuthGuard } from 'src/auth/guard/api-auth.guard';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
-import { ApiKeyAuth } from 'src/decorators/apiKey.decorator';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { ApiConsumes, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/decorators/Auth.decorator';
 import { CurrentUser } from 'src/decorators/user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './types/user';
 import { UsersService } from './users.service';
 
-@ApiTags('users')
+@ApiTags('users (apiKey*, bearerToken*)')
 @Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
+  @Auth()
+  @ApiExcludeEndpoint()
   @Post('/users')
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);
   }
-
+  @Auth()
+  @ApiExcludeEndpoint()
   @Get('/users')
   async findAll() {
     return await this.usersService.findAll();
   }
 
-  @ApiKeyAuth()
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(ApiAuthGuard)
+  @Auth()
+  @ApiConsumes()
   @Get('/currentUser')
   getCurrentUser(@CurrentUser() user: User) {
     return user;
   }
 
-  @ApiKeyAuth()
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(ApiAuthGuard)
+  @Auth()
   @Patch('/currentUser')
   async updateCurrentUser(
     @CurrentUser() user: User,
@@ -53,11 +40,15 @@ export class UsersController {
     return await this.usersService.update(user.username, body);
   }
 
+  @Auth()
+  @ApiExcludeEndpoint()
   @Get('/users/:username')
   async findOne(@Param('username') username: string) {
     return await this.usersService.findOne(username);
   }
 
+  @Auth()
+  @ApiExcludeEndpoint()
   @Patch('/users/:username')
   async update(
     @Param('username') username: string,

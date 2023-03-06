@@ -6,7 +6,7 @@ export const CurrentUser = createParamDecorator(
     const req = ctx
       .switchToHttp()
       .getRequest<Request & { user: UserDocument }>();
-    console.log();
+    console.log(req.user);
     return req.user;
   },
 );
