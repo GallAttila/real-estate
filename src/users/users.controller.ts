@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiConsumes, ApiExcludeEndpoint, ApiTags } from '@nestjs/swagger';
-import { Auth } from 'src/decorators/Auth.decorator';
+import { Auth } from 'src/decorators/auth.decorator';
 import { CurrentUser } from 'src/decorators/user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -11,27 +11,27 @@ import { UsersService } from './users.service';
 @Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-  @Auth()
+  @Auth('users')
   @ApiExcludeEndpoint()
   @Post('/users')
   async create(@Body() createUserDto: CreateUserDto) {
     return await this.usersService.create(createUserDto);
   }
-  @Auth()
+  @Auth('users')
   @ApiExcludeEndpoint()
   @Get('/users')
   async findAll() {
     return await this.usersService.findAll();
   }
 
-  @Auth()
+  @Auth('users')
   @ApiConsumes()
   @Get('/currentUser')
   getCurrentUser(@CurrentUser() user: User) {
     return user;
   }
 
-  @Auth()
+  @Auth('users')
   @Patch('/currentUser')
   async updateCurrentUser(
     @CurrentUser() user: User,
@@ -40,14 +40,14 @@ export class UsersController {
     return await this.usersService.update(user.username, body);
   }
 
-  @Auth()
+  @Auth('users')
   @ApiExcludeEndpoint()
   @Get('/users/:username')
   async findOne(@Param('username') username: string) {
     return await this.usersService.findOne(username);
   }
 
-  @Auth()
+  @Auth('users')
   @ApiExcludeEndpoint()
   @Patch('/users/:username')
   async update(
