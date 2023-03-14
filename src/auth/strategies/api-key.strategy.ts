@@ -14,6 +14,7 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
     if (apiKey !== process.env.API_KEY) {
       throw new UnauthorizedException();
     }
-    return this.success(req.user);
+    if (req.user) return this.success(req.user);
+    else return this.pass();
   }
 }
