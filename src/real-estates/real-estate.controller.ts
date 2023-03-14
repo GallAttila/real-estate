@@ -18,7 +18,7 @@ import { RealEstateService } from './real-estate.service';
 export class RealEstateController {
   constructor(private readonly realEstateService: RealEstateService) {}
 
-  @ApiAuth('real-estates')
+  // @ApiAuth('real-estates')
   @Get()
   findAll() {
     return this.realEstateService.findAll();
