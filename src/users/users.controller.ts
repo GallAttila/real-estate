@@ -27,8 +27,8 @@ export class UsersController {
   @Auth('users')
   @ApiConsumes()
   @Get('/currentUser')
-  getCurrentUser(@CurrentUser() user: User) {
-    return user;
+  async getCurrentUser(@CurrentUser() user: User) {
+    return await this.usersService.findOne(user.username);
   }
 
   @Auth('users')
